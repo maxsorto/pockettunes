@@ -5,9 +5,12 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { APP_DATA_DIR } from './config.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 // The Studio feature renders the on-device UI via the REAL firmware renderer
 // (ipod_ui.c). It needs the firmware source dir to put on the C include path.
-// Resolution: PREVIEW_SRC_DIR env, else ~/.pockettunes-sync/firmware-src-dir.txt.
+// Resolution: PREVIEW_SRC_DIR env, else ~/.pockettunes-sync/firmware-src-dir.txt,
+// else firmware/src in this repository (sync/ sits next to firmware/).
 function resolveFirmwareSrcDir(): string {
   const env = process.env.PREVIEW_SRC_DIR?.trim();
   if (env) return env;
@@ -17,10 +20,10 @@ function resolveFirmwareSrcDir(): string {
   } catch {
     // no pointer file
   }
+  const inRepo = path.resolve(__dirname, '../../../firmware/src');
+  if (fs.existsSync(path.join(inRepo, 'ipod_ui.c'))) return inRepo;
   return '';
 }
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDER_SRC = path.resolve(__dirname, '../preview/render.c');
 const binPath = (scale: number) => path.join(APP_DATA_DIR, `preview-render-${scale}x.bin`);
 const outDir = (scale: number) => path.join(APP_DATA_DIR, `preview-${scale}x`);

@@ -23,7 +23,7 @@ hence the local backend.
 ## Quick start
 
 ```bash
-cd ~/pockettunes-sync
+cd pockettunes/sync
 npm install
 npm start            # builds the UI, starts the backend, opens the browser
 ```

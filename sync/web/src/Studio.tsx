@@ -12,9 +12,9 @@ export function Studio() {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [scale, setScale] = useState(2);
+  const [scale, setScale] = useState(1);
   const [smooth, setSmooth] = useState(false);
-  const [res, setRes] = useState<1 | 2>(1);
+  const [res, setRes] = useState<1 | 2>(2);
   const [renderedScale, setRenderedScale] = useState(1);
 
   async function render(scaleArg: 1 | 2 = res) {
@@ -55,8 +55,8 @@ export function Studio() {
               void render(v);
             }}
           >
-            <option value={1}>320x240 (stable)</option>
-            <option value={2}>640x480 (hi-res)</option>
+            <option value={1}>320x240 (UI_SCALE=1)</option>
+            <option value={2}>640x480 (default)</option>
           </select>
         </label>
         <label style={{ fontSize: 12, color: 'var(--text-dim)', display: 'flex', gap: 6, alignItems: 'center' }}>
