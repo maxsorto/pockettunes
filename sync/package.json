@@ -1,0 +1,22 @@
+{
+  "name": "pockettunes-sync",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mac-first companion app that syncs a music library to an Analogue Pocket SD card for the PocketTunes openFPGA core.",
+  "type": "module",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,web -c green,cyan \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "npm --workspace server run dev",
+    "dev:web": "npm --workspace web run dev",
+    "build": "npm --workspace web run build",
+    "start": "npm run build && npm --workspace server run start",
+    "typecheck": "npm --workspace server exec tsc -- --noEmit && npm --workspace web exec tsc -- -b"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

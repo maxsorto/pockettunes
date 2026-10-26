@@ -1,0 +1,15 @@
+node_modules/
+web/dist/
+*.log
+.DS_Store
+.playwright-mcp/
+
+# build artifacts / local config
+*.tsbuildinfo
+.env
+.env.local
+
+# generated media (never commit the library or built ISOs)
+*.iso
+iso/
+staging/
