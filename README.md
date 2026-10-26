@@ -115,10 +115,6 @@ Next:
 - On-the-go queue
 - Click-wheel style scrolling on the d-pad
 
-## How long it took
-
-To be filled in from the build session's Claude Code transcript (start and end time, model, turns, tokens).
-
 ## Repository layout
 
 - `release/` the build as it goes on the SD card: `Cores/DapperLogic.PocketTunes`, `Assets/pockettunes/`, `Platforms/pockettunes.json`
