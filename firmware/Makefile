@@ -47,10 +47,14 @@ release: $(ELF)
 	@cp $(ELF) $(OUT)/Assets/$(APP)/common/$(APP).elf
 	@echo "Ready: $(OUT)/"
 
-# Copy to the SD card (auto-detected, or pass SD=/Volumes/NAME).
-SD ?= $(firstword $(foreach v,$(wildcard /Volumes/*),$(if $(wildcard $(v)/Cores $(v)/Analogue_Pocket.json),$(v))))
+# Copy to the SD card (auto-detected, or pass SD=/path/to/card). A Pocket
+# card has Cores/, Assets/ and Platforms/ at its root. All three are
+# required: macOS's own disk has a /cores folder, and the filesystem is
+# case-insensitive. Volumes with spaces in their name need SD= passed.
+SD ?= $(firstword $(foreach v,$(wildcard /Volumes/* /media/*/* /run/media/*/*),$(if $(and $(wildcard $(v)/Cores),$(wildcard $(v)/Assets),$(wildcard $(v)/Platforms)),$(v))))
 copy: all
-	@test -n "$(SD)" || { echo "No Pocket SD card found; pass SD=/Volumes/NAME"; exit 1; }
+	@test -n "$(SD)" || { echo "No Pocket SD card found; pass SD=/path/to/card"; exit 1; }
+	@test -d "$(SD)/Platforms" -a -d "$(SD)/Assets" || { echo "$(SD) doesn't look like a Pocket SD card"; exit 1; }
 	@cp -R $(OUT)/Cores/. "$(SD)/Cores/"
 	@cp -R $(OUT)/Assets/. "$(SD)/Assets/"
 	@cp -R $(OUT)/Platforms/. "$(SD)/Platforms/"
