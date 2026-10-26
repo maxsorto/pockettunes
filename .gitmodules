@@ -1,0 +1,3 @@
+[submodule "firmware/openfpgaSDK"]
+	path = firmware/openfpgaSDK
+	url = https://github.com/openfpgaOS/openfpgaSDK.git
