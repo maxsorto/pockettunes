@@ -58,13 +58,28 @@ copy: all
 	@echo "Copied to $(SD). Eject and boot the Pocket."
 
 # Desktop build: the SDK's SDL2 layer stands in for the Pocket's video,
-# audio and input. MUSIC_DIR is the folder the sync app stages (it must
-# contain playlist.tsv, the MP3s and art/).
-MUSIC_DIR ?= $(HOME)/.pockettunes-sync/staging
-test: app_pc
-	./app_pc
+# audio and input. The player runs from MUSIC_DIR, a folder laid out like
+# music.iso (playlist.tsv, the MP3s, art/). Defaults to a generated test
+# library; point it at your own: make test MUSIC_DIR=~/Music/pocket
+MUSIC_DIR ?= testlib
+DESKTOP   = build/pockettunes-desktop
+test: $(DESKTOP) $(if $(filter testlib,$(MUSIC_DIR)),testlib/playlist.tsv)
+	cd "$(MUSIC_DIR)" && "$(CURDIR)/$(DESKTOP)"
+
+# Own rule rather than the SDK's app_pc: that one is Linux-only (it pulls
+# in of_init.c, which needs <sys/auxv.h>). The SDL shim does #include_next
+# <SDL2/SDL.h>, so SDL's parent include dir must be on the path.
+SDL_PREFIX := $(shell sdl2-config --prefix 2>/dev/null)
+$(DESKTOP): $(SRCS) $(wildcard src/*.h) $(SDK_DIR)/pc/of_sdl2.c
+	@mkdir -p $(dir $@)
+	$(PC_CC) -DOF_PC -O2 -Wall -Wextra -I$(SDK_DIR)/include $(CFLAGS) \
+		$(SRCS) $(SDK_DIR)/pc/of_sdl2.c \
+		$(SDL_CFLAGS) -I$(SDL_PREFIX)/include $(SDL_LIBS) -lm -o $@
+
+testlib/playlist.tsv:
+	scripts/make_testlib.sh testlib
 
 clean: sdk-clean
-	rm -rf build app_pc
+	rm -rf build app_pc testlib
 
 .PHONY: all release copy test clean

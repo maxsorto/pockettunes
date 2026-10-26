@@ -63,12 +63,44 @@ D-pad to move, A to select, B to go back. In the games: A picks or fires, B exit
 
 ## Run it locally
 
-The openfpgaOS SDK builds the same app for the desktop in an SDL window, which is how the screenshots above were taken:
+The same source builds for the desktop and runs in an SDL window, with a generated test library of five tracks so you don't need the Pocket or your music. On macOS:
 
 ```sh
+brew install sdl2 ffmpeg
+git clone --recursive git@github.com:maxsorto/pockettunes.git
+cd pockettunes/firmware
 make test
-./app_pc
 ```
+
+`make test` builds `build/pockettunes-desktop`, generates `testlib/` the first time, and starts the player in it. To use your own music, point it at a folder laid out like `music.iso` (`playlist.tsv`, the MP3s, `art/`), or at a mounted copy of the image itself:
+
+```sh
+hdiutil attach /path/to/music.iso          # prints the /Volumes/... it mounted at
+make test MUSIC_DIR=/Volumes/<that volume>
+```
+
+Keyboard in the desktop build:
+
+| Key | Pocket button |
+|---|---|
+| Arrow keys | D-pad |
+| Z | A |
+| X | B |
+| A | X |
+| Q / W | L1 / R1 |
+| Return | Start |
+| Right Shift | Select |
+
+## Build for the Pocket
+
+```sh
+brew install riscv64-elf-gcc
+cd firmware
+make          # SD card tree in build/pocket/pockettunes/
+make copy     # copy it to the Pocket's SD card (auto-detected, or SD=/Volumes/NAME)
+```
+
+`firmware/openfpgaSDK` is a submodule pinned to the openfpgaOS SDK commit the release was built against, so the `os.bin`, `os25.rbf_r` and `loader.bin` it ships match `release/` byte for byte. `make UI_SCALE=1` builds the original 320x240 look; the default is the 640x480 one.
 
 ## What's done and what's next
 
@@ -90,6 +122,8 @@ To be filled in from the build session's Claude Code transcript (start and end t
 ## Repository layout
 
 - `release/` the build as it goes on the SD card: `Cores/DapperLogic.PocketTunes`, `Assets/pockettunes/`, `Platforms/pockettunes.json`
+- `firmware/` the source: `src/` (player, UI, games), `Makefile`, `dist/` (core json), `openfpgaSDK/` (pinned SDK)
+- `recovery/` how the source was rebuilt from the released ELF after the original was lost: decompiled reference, symbols, strings and the extraction scripts
 - `docs/images/` screenshots and the diagram
 
 ## Credits and license
