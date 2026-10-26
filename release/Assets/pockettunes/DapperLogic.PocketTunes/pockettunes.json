@@ -1,0 +1,23 @@
+{
+    "instance": {
+        "magic": "APF_VER_1",
+        "variant_select": { "id": 666, "select": false },
+        "data_slots": [
+            { "id": 1, "filename": "os.bin" },
+            { "id": 2, "filename": "pockettunes.ini" },
+            { "id": 3, "filename": "pockettunes.elf" },
+            { "id": 4, "filename": "music.iso" },
+            { "id": 7, "filename": "bank.ofsf" },
+            { "id": 10, "filename": "pockettunes.sav" },
+            { "id": 11, "filename": "pockettunes_1.sav" },
+            { "id": 12, "filename": "pockettunes_2.sav" },
+            { "id": 13, "filename": "pockettunes_3.sav" },
+            { "id": 14, "filename": "pockettunes_4.sav" },
+            { "id": 15, "filename": "pockettunes_5.sav" },
+            { "id": 16, "filename": "pockettunes_6.sav" },
+            { "id": 17, "filename": "pockettunes_7.sav" },
+            { "id": 18, "filename": "pockettunes_8.sav" },
+            { "id": 19, "filename": "pockettunes_9.sav" }
+        ]
+    }
+}
