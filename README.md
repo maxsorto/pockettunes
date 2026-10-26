@@ -4,7 +4,7 @@
 
 An iPod-style music player for the Analogue Pocket. Browse your library by album or artist, see the album art while a song plays, shuffle everything, pick a theme, and play the little games the classic iPods had: Music Quiz, Brick, Parachute and Solitaire.
 
-<p align="center"><b>Download: <a href="https://github.com/maxsorto/pockettunes/releases">latest release</a></b><br>Analogue Pocket with openfpgaOS. Bring your own music.</p>
+<p align="center"><b>Download: <a href="https://github.com/maxsorto/pockettunes/releases">latest release</a></b><br>Analogue Pocket with openfpgaOS. Bring your own music.<br><b>Load your music: <a href="https://github.com/maxsorto/pockettunes-sync">PocketTunes Sync</a></b>, an iTunes-style app on your Mac that syncs your library to the SD card.</p>
 
 It is a C program that runs on the openfpgaOS core, not an FPGA core of its own. No music ships with it.
 
@@ -58,7 +58,7 @@ D-pad to move, A to select, B to go back. In the games: A picks or fires, B exit
 
 1. Install openfpgaOS on the SD card (`Cores/`, `Platforms/` and its `os.bin`).
 2. Copy this repository's `release/` folder onto the card root and merge the folders.
-3. Build `music.iso` from your own music and put it in `/Assets/pockettunes/common/`.
+3. Load your music with [PocketTunes Sync](https://github.com/maxsorto/pockettunes-sync). It runs in your browser on the Mac, looks like iTunes, and writes `music.iso` and the album art to `/Assets/pockettunes/common/`.
 4. On the Pocket: openFPGA, PocketTunes.
 
 ## Run it locally
@@ -106,12 +106,12 @@ make copy     # copy it to the Pocket's SD card (auto-detected, or SD=/Volumes/N
 
 Done:
 - Library by album and artist, shuffle, Now Playing with album art
+- [PocketTunes Sync](https://github.com/maxsorto/pockettunes-sync), the desktop app that builds `music.iso` and the album art
 - Themes and volume
 - Music Quiz, Brick, Parachute and Solitaire
 
 Next:
 - Playlists and favorites
-- A desktop tool that builds `music.iso` and the album art from a folder of music
 - On-the-go queue
 - Click-wheel style scrolling on the d-pad
 
